@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import * as BooksAPI from './BooksAPI'
-
+/**
+ * @description 图书组件
+ * @class Book
+ * @extends {Component}
+ */
 class Book extends Component {
     state = { 
         my_shelf: ""
      }
+    // 更新书籍状态
     updateBookStatus = (status, book) => {
         let _this = this;
         BooksAPI.update(book, status).then(res => {
@@ -19,12 +24,8 @@ class Book extends Component {
         const bookObj = this.props;
         const bookCover = bookObj.data.imageLinks ? bookObj.data.imageLinks.thumbnail : "";
         const authers = bookObj.data.authors;
-        // const shelf = bookObj.data.shelf;
         let {my_shelf} = this.state;
         my_shelf = bookObj.data.shelf;
-        // this.setState(state => ({
-        //     my_shelf: shelf
-        // }))
         return (
             <div  className="book">
                 <div className="book-top">

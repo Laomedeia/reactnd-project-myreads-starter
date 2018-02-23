@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
 
+/**
+ * @description 我的书籍列表组件
+ * @class ListMyBooks
+ * @extends {Component}
+ */
 class ListMyBooks extends Component {
 
     constructor(props){
@@ -10,89 +15,67 @@ class ListMyBooks extends Component {
             mybooksData: props.mybooksData
          }
     }
-    // state = {
-    //     mybooksData: []
-    // }
+    
     componentWillReceiveProps(nextProps) {
         this.setState({
             mybooksData: nextProps.mybooksData
           });
     }
+
+    // 添加图书到指定分类书架
     setShelf(bookId,status) {
         console.log("执行更新status...");
         this.state.mybooksData.filter(book => book.id === bookId).forEach(el => {el.shelf = status});
-        console.log(this.state.mybooksData);
+        //console.log(this.state.mybooksData);
         this.setState({
             mybooksData: this.state.mybooksData
         });
     }
+
+    // 根据指定分类展示图书
+    listBookByStatus(status) {
+      return this.state.mybooksData && this.state.mybooksData.length > 0 && this.state.mybooksData.filter(book => book.shelf === status).map((book) => (
+        <li key={book.id}>
+            <Book data={book} onShelfChange={(bookId, status) => {this.setShelf(bookId, status);}} />
+        </li>
+      ))
+    }
+
     render() {
-        // const {readingData, wantData, readData} = this.props;
-        //const {mybooksData} = this.props;
-        //....
-        //..
         return (
           <div className="list-books">
           <div className="list-books-title">
-            <h1>MyReads</h1>
+            <h1>我的书架</h1>
           </div>
           <div className="list-books-content">
             <div>
               <div className="bookshelf">
-                <h2 className="bookshelf-title">Currently Reading</h2>
+                <h2 className="bookshelf-title">在读</h2>
                 <div className="bookshelf-books">
                   <ol className="books-grid">
                     {  
-                    // readingData && readingData.length > 0 && readingData.map((book) => (
-                    //     <li key={book.id}>
-                    //         <Book data={book} />
-                    //     </li>
-                    // ))
-                    this.state.mybooksData && this.state.mybooksData.length > 0 && this.state.mybooksData.filter(book => book.shelf === 'currentlyReading').map((book) => (
-                            <li key={book.id}>
-                                <Book data={book} onShelfChange={(bookId, status) => {this.setShelf(bookId, status);}} />
-                            </li>
-                        ))
+                        this.listBookByStatus('currentlyReading')
                     }
                   </ol>
                 </div>
               </div>
               <div className="bookshelf">
-                <h2 className="bookshelf-title">Want to Read</h2>
+                <h2 className="bookshelf-title">想读</h2>
                 <div className="bookshelf-books">
                   <ol className="books-grid">
-                  {  
-                    // wantData && wantData.length > 0 && wantData.map((book) => (
-                    //     <li key={book.id}>
-                    //         <Book data={book} />
-                    //     </li>
-                    // ))
-                    this.state.mybooksData && this.state.mybooksData.length > 0 && this.state.mybooksData.filter(book => book.shelf === 'wantToRead').map((book) => (
-                        <li key={book.id}>
-                            <Book data={book} onShelfChange={(bookId, status) => {this.setShelf(bookId, status);}} />
-                        </li>
-                    ))
-                }
-                    
+                   {  
+                        this.listBookByStatus('wantToRead')
+                   }
                   </ol>
                 </div>
               </div>
               <div className="bookshelf">
-                <h2 className="bookshelf-title">Read</h2>
+                <h2 className="bookshelf-title">已读</h2>
                 <div className="bookshelf-books">
                   <ol className="books-grid">
-                  {  
-                    // readData && readData.length > 0 && readData.map((book) => (
-                    //     <li key={book.id}>
-                    //         <Book data={book} />
-                    //     </li>
-                    // ))
-                    this.state.mybooksData && this.state.mybooksData.length > 0 && this.state.mybooksData.filter(book => book.shelf === 'read').map((book) => (
-                        <li key={book.id}>
-                            <Book data={book} onShelfChange={(bookId, status) => {this.setShelf(bookId, status);}} />
-                        </li>
-                    ))
-                    }
+                      {
+                        this.listBookByStatus('read')
+                      }
                   </ol>
                 </div>
               </div>
@@ -100,7 +83,7 @@ class ListMyBooks extends Component {
           </div>
           <div className="open-search">
             <Link to="/search">
-                    Add a book
+                    添加一本书籍
             </Link>
           </div>
            

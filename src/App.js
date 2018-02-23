@@ -7,18 +7,15 @@ import './App.css'
 
 class BooksApp extends Component {
   state = {
-    // reading_books: [],
-    // want_books: [],
-    // read_books: [],
     mybooks: []
-}
+  }
 componentDidMount() {
+    // 查询我的图书
     BooksAPI.getAll().then((books) => {
         console.log(books);
         this.setState(state => ({
           mybooks: books
         }))
-         
     })
 }   
 
@@ -26,12 +23,10 @@ componentDidMount() {
     return (
       <div className="app">
        <Route path="/search" render={({history}) => (
-            // <SearchBooks mybooksData={this.state.reading_books.concat(this.state.want_books).concat(this.state.read_books)} />
-            <SearchBooks mybooksData={this.state.mybooks} onMarkBook={()=>{history.push("/")}} />
+            <SearchBooks mybooksData={this.state.mybooks}  />
         )} ></Route>  
         <Route exact path="/" render={() => (
-          //  <ListMyBooks readingData={this.state.reading_books} wantData={this.state.want_books} readData={this.state.read_books} />
-          <ListMyBooks mybooksData={this.state.mybooks} />
+            <ListMyBooks mybooksData={this.state.mybooks} />
         )}></Route>
       </div>
     )

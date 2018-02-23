@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
-
+import { ToastContainer, toast } from 'react-toastify';
+/**
+ * @description 搜索书籍页面组件
+ * @class SearchBooks
+ * @extends {Component}
+ */
 class SearchBooks extends Component {
     state = {
       books : [],
       query: ''
     }
+    // 搜索图书并保持和我的书籍状态一致
     updateQuery = (query, mybooksData) => {
       let queryCond = query.trim();
       this.setState({ query: queryCond })
@@ -27,9 +33,7 @@ class SearchBooks extends Component {
     }
     setShelf(bookId,status) {
       console.log("执行更新status...");
-      if (this.props.onMarkBook) {
-        this.props.onMarkBook();
-      }
+      toast.success("✔成功添加到我的书架!")
    }
     render() {
         const { mybooksData } = this.props;
@@ -38,7 +42,7 @@ class SearchBooks extends Component {
         return(
             <div className="search-books">
             <div className="search-books-bar">
-              <Link className="close-search" to="/">Close</Link>
+              <Link className="close-search" to="/">回到首页</Link>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -48,9 +52,9 @@ class SearchBooks extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by key words" value={query} 
+                <input type="text" placeholder="关键词搜索" value={query} 
                        onChange={(event) => this.updateQuery(event.target.value, mybooksData)} />
-
+                <ToastContainer autoClose={3000} />
               </div>
             </div>
             <div className="search-books-results">
