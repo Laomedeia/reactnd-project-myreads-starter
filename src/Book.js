@@ -32,11 +32,11 @@ class Book extends Component {
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${bookCover})` }}></div>
                     <div className="book-shelf-changer">
                     <select value={my_shelf}  onChange={(event) => this.updateBookStatus(event.target.value, bookObj.data)}>
-                        <option value="none" disabled>Move to...</option>
-                        <option value="none">None</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
+                        <option value="none" disabled>移动到...</option>
+                        <option value="currentlyReading">在读</option>
+                        <option value="wantToRead">想读</option>
+                        <option value="read">已读</option>
+                        <option value="none">从书架删除</option>
                     </select>
                     </div>
                 </div>
