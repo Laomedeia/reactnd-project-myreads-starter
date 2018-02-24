@@ -9,10 +9,15 @@ import { ToastContainer, toast } from 'react-toastify';
  * @extends {Component}
  */
 class SearchBooks extends Component {
-    state = {
-      books : [],
-      query: ''
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        books: [],
+        query: ''
+      }
     }
+   
     // 搜索图书并保持和我的书籍状态一致
     updateQuery = (query, mybooksData) => {
       let queryCond = query.trim();
